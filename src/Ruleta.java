@@ -20,18 +20,18 @@ public class Ruleta {
     public static void menu() {
         mostrarMenu();
         Scanner respuesta = new Scanner(System.in);
-        leerOpcion(respuesta);
+        int opcion = leerOpcion(respuesta);
+        ejecutarOpcion(opcion, respuesta);
+
 
     }
 
 
     public static void mostrarMenu() {
 
-        System.out.println("Seleccione su tipo de apuesta: \n");
-        System.out.println("1. Par");
-        System.out.println("2. Impar");
-        System.out.println("3. Rojo");
-        System.out.println("4. Negro");
+        System.out.println("¿Quieres empezar a jugar?: \n");
+        System.out.println("1. SI");
+        System.out.println("2. NO");
 
     }
 
@@ -44,7 +44,16 @@ public class Ruleta {
     }
 
 
-    public static void ejecutarOpcion(int opcion, Scanner in) {}
+    public static void ejecutarOpcion(int opcion, Scanner in) {
+
+        if (opcion == 1) {
+            System.out.println("Vamos alla");
+            iniciarRonda(in);
+        } else {
+            System.exit(0);
+        }
+
+    }
 
     public static void iniciarRonda(Scanner in) {}
 
