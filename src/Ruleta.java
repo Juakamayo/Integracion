@@ -39,6 +39,7 @@ public class Ruleta {
     public static int leerOpcion(Scanner in) {
         System.out.println("Respuesta:");
         int respuesta = in.nextInt();
+
         return respuesta;
     }
 
