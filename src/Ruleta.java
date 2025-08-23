@@ -37,29 +37,38 @@ public class Ruleta {
 
 
     public static int leerOpcion(Scanner in) {
-        System.out.println("Respuesta:");
-        int respuesta = in.nextInt();
-
-        return respuesta;
+        int opcion = in.nextInt();
+        return opcion;
     }
 
 
     public static void ejecutarOpcion(int opcion, Scanner in) {
-
-        if (opcion == 1) {
-            System.out.println("Vamos alla");
-            iniciarRonda(in);
-        } else {
-            System.exit(0);
+        switch (opcion) {
+            case 1:
+                iniciarRonda(in);
+            case 2:
+                System.out.println("Saliendo");
+            default:
+                System.out.println("Opcion invalida");
         }
+    }
+
+    public static void iniciarRonda(Scanner in) {
+        char estilo = leerTipoApuesta(in);
+        System.out.print("Monto a apostar: ");
+        int monto = in.nextInt();
+        in.nextLine();
+
+        int numero = girarRuleta();
+        boolean correcto = evaluarResultado(numero, estilo);
+
+        registrarResultado(numero, monto);
 
     }
 
-    public static void iniciarRonda(Scanner in) {}
-
 
     public static String leerTipoApuesta(Scanner in) {
-        return " ";
+
     }
 
     public static int girarRuleta() {
