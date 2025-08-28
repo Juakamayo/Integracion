@@ -1,6 +1,8 @@
 import java.util.Random;
 import java.util.Scanner;
 
+//Falta hacer bien un bucle principal
+
 public class Ruleta {
 
     public static final int MAX_HISTORIAL = 100;
@@ -30,8 +32,10 @@ public class Ruleta {
     public static void mostrarMenu() {
 
         System.out.println("¿Quieres empezar a jugar?: \n");
-        System.out.println("1. SI");
-        System.out.println("2. NO");
+        System.out.println("1. Iniciar ronda");
+        System.out.println("2. Estadisticas");
+        System.out.println("3. Salir");
+        System.out.println("Elige una opcion: ");
 
     }
 
@@ -46,10 +50,16 @@ public class Ruleta {
         switch (opcion) {
             case 1:
                 iniciarRonda(in);
+                break;
             case 2:
+                mostrarEstadisticas();
+                break;
+            case 3:
                 System.out.println("Saliendo");
+                break;
             default:
                 System.out.println("Opcion invalida");
+                break;
         }
     }
 
@@ -62,31 +72,99 @@ public class Ruleta {
         int numero = girarRuleta();
         boolean correcto = evaluarResultado(numero, estilo);
 
-        registrarResultado(numero, monto);
-
+        registrarResultado(numero, monto, correcto);
+        mostrarResultado(numero, estilo, monto, correcto);
     }
 
 
-    public static String leerTipoApuesta(Scanner in) {
+    public static char leerTipoApuesta(Scanner in) {
+        char estilo;
+        do {
+            System.out.println("Elige un tipo de apuesta (R/N/P/I): ");
+            estilo = Character.toUpperCase(in.next().charAt(0));
 
+        } while (estilo != 'R' && estilo != 'N' && estilo != 'P' && estilo != 'I'); //repasar
+        return estilo;
     }
 
     public static int girarRuleta() {
-        return 0;
+        return rng.nextInt(37);
     }
 
     public static boolean evaluarResultado(int numero, char tipo) {
-        return false;
+        if (numero == 0) return false;
+        switch (tipo) {
+            case 'R':
+                return esRojo(numero);
+            case 'N':
+                return !esRojo(numero);
+            case 'P':
+                return numero % 2 == 0;
+            case 'I':
+                return numero % 2 != 0;
+            default:
+                return false;
+        }
     }
 
     public static boolean esRojo(int n) {
+        for (int rojo : numerosRojos) {
+            if (rojo == n) return true;
+        }
         return false;
     }
 
-    public static void registrarResultado(int numero, int apuesta, boolean acierto) {}
+    public static void registrarResultado(int numero, int apuesta, boolean acierto) { //repasar
+        if (historialSize < MAX_HISTORIAL) {
+            historialNumeros[historialSize] = numero;
+            historialApuestas[historialSize] = apuesta;
+            historialAciertos[historialSize] = acierto;
+            historialSize++;
+        }
+    }
+
+
+
+
 
     public static void mostrarResultado(int numero, char tipo, int monto, boolean
-            acierto) {}
+            acierto) {
+        System.out.println("Resultado \n");
+        System.out.println("Numero conseguido: " + numero);
+        System.out.println("Tu apuesta: " + tipo + " por $" + monto);
+        if (acierto) {
+            System.out.println("Haz ganado +$" + monto);
+        } else {
+            System.out.println("Acabas de perder -$" + monto);
+        }
+    }
 
-    public static void mostrarEstadisticas() {}
+    public static void mostrarEstadisticas() {
+
+        int totalRondas = historialSize;
+        int totalPlata = 0;
+        int aciertos = 0;
+        int ganancia = 0;
+
+        for (int i = 0; i < historialSize; i++) {
+            totalPlata += historialApuestas[i];
+            if (historialAciertos[i]) {
+                aciertos++;
+                ganancia += historialApuestas[i];
+            } else {
+                ganancia -= historialApuestas[i];
+            }
+        }
+
+        System.out.println("Estadisticas: \n"); //repasar este resto
+        System.out.println("Rondas jugadas: "+ totalRondas);
+        System.out.println("Total apostado: $" +totalPlata);
+        System.out.println("Total aciertos: " + aciertos);
+        if (totalRondas > 0) {
+            System.out.printf("%% de acierto: %.2f%%\n", (aciertos * 100.0 / totalRondas));
+        }
+        System.out.println("Ganancia/Perdida neta: $" + ganancia);
+
+
+    }
 }
