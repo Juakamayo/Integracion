@@ -1,7 +1,7 @@
 import java.util.Random;
 import java.util.Scanner;
 
-//Falta hacer bien un bucle principal
+
 
 public class Ruleta {
 
@@ -20,10 +20,16 @@ public class Ruleta {
     }
 
     public static void menu() {
-        mostrarMenu();
+
         Scanner respuesta = new Scanner(System.in);
-        int opcion = leerOpcion(respuesta);
-        ejecutarOpcion(opcion, respuesta);
+        int opcion;
+
+        do {
+            mostrarMenu();
+            opcion = leerOpcion(respuesta);
+            ejecutarOpcion(opcion, respuesta);
+        } while (opcion != 3);
+
 
 
     }
@@ -157,7 +163,7 @@ public class Ruleta {
         }
 
         System.out.println("Estadisticas: \n"); //repasar este resto
-        System.out.println("Rondas jugadas: "+ totalRondas);
+        System.out.println("Cantidad de rondas jugadas: "+ totalRondas);
         System.out.println("Total apostado: $" +totalPlata);
         System.out.println("Total aciertos: " + aciertos);
         if (totalRondas > 0) {
